@@ -1,0 +1,42 @@
+from collections import deque
+
+rangBuoc = {
+    "A": ["B", "C"],
+    "B": ["D"],
+    "C": ["F"],
+    "D": ["G"],
+    "E": ["C"],
+    "F": ["E"],
+    "G": [],
+}
+
+start = "A"
+end = "E"
+
+def DFS(start, end):
+    stack = deque([start]) 
+    visited = set()      
+    path = []
+
+    while stack:
+        current = stack.popleft()
+        if current in visited:
+            continue
+
+        visited.add(current)
+        path.append(current)
+
+        if current == end:
+            return path
+        for neighbor in reversed(rangBuoc[current]):
+            if neighbor not in visited:
+                stack.appendleft(neighbor)
+
+        print(f"Stack hiện tại: {list(stack)}")
+    return None
+result = DFS(start, end)
+
+if result:
+    print("Đường đi từ", start, "đến", end, ":", " -> ".join(result))
+else:
+    print("Không tìm thấy đường đi từ", start, "đến", end)
